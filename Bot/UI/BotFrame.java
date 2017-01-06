@@ -12,10 +12,12 @@ import java.awt.event.ActionListener;
 /**
  * Created by Vik on 24/11/2016.
  */
-public class BotFrame extends JFrame{
+public class BotFrame extends JFrame implements ActionListener{
 
     private Dimension gameDimension =new Dimension(770,555);
     private JPanel gamePanel = new JPanel(new BorderLayout());
+    private ScriptSelection scrs;
+    private ServerSelection ss;
     public BotFrame(String title) throws IllegalAccessException, InstantiationException {
         JMenuBar menuBar = new JMenuBar();
 
@@ -51,40 +53,9 @@ public class BotFrame extends JFrame{
         this.setResizable(false);
         this.pack();
         this.setSize(gameDimension);
-        ServerSelection ss =new ServerSelection();
-        ScriptSelection scrs =new ScriptSelection();
-        ss.setVisible(false);
-        scrs.setVisible(false);
 
-        itemScript.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                scrs.setVisible(true);
-            }
-        });
-
-        itemServer.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                ss.setVisible(true);
-            }
-        });
-
-        JButton test = (JButton) ss.getContentPane().getComponent(0);
-            test.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    Config.selectedServer="SP";
-                    try {
-                        redrawPanel();
-                    } catch (InstantiationException e1) {
-                        e1.printStackTrace();
-                    } catch (IllegalAccessException e1) {
-                        e1.printStackTrace();
-                    }
-                    ss.setVisible(false);
-                }
-            });
+        itemScript.addActionListener(this);
+        itemServer.addActionListener(this);
     }
 
     private void redrawPanel() throws InstantiationException, IllegalAccessException {
@@ -111,4 +82,26 @@ public class BotFrame extends JFrame{
         return  RSPSApplet;
     }
 
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        switch (e.getActionCommand()){
+            case "Select Server":
+               ss = new ServerSelection();
+                break;
+            case "Select Script":
+                scrs= new ScriptSelection();
+                for(Component c: scrs.getContentPane().getComponents()){
+                    if(c instanceof JButton){
+                    ((JButton) c).addActionListener(this);
+                    }
+                }
+                break;
+        }
+        if(e.getActionCommand().endsWith(".class")){
+            Config.selectedScript =e.getActionCommand();
+            Config.selectedScriptPath = Config.userDirectory+Config.home+Config.subDirectories[1]+"/"+e.getActionCommand();
+            System.out.println("Selected Script- "+Config.selectedScriptPath);
+           scrs.dispose();
+        }
+    }
 }
