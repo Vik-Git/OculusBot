@@ -5,13 +5,11 @@ import Bot.Misc.Config;
 import javax.swing.*;
 import java.awt.*;
 import java.io.File;
-import java.util.ArrayList;
 
 /**
  * Created by Vik on 6/01/2017.
  */
 public class ScriptSelection extends JDialog {
-    private ArrayList<JButton> scriptButtons = new ArrayList<JButton>();
     public ScriptSelection(){
         this.setSize(300,80);
         this.setResizable(false);
