@@ -3,7 +3,6 @@ package Bot;
 
 import Bot.Misc.Config;
 import Bot.Misc.DirectoryManager;
-import Bot.Script.testScript;
 import Bot.UI.BotFrame;
 
 import java.io.IOException;
@@ -25,9 +24,9 @@ public class OculusBot{
         inj.loadClasses();
         inj.modifyClasses();
         inj.dumpClasses();*/
-        BotFrame botFrame = new BotFrame("OculusBot "+0.1);
-        Thread t = new Thread(new testScript());
-        t.start();
+        BotFrame botFrame = new BotFrame("OculusBot Alpha Version"+0.1);
+      /*  Thread t = new Thread(new testScript());
+        t.start();*/
     }
 
 }

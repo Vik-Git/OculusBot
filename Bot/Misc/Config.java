@@ -7,4 +7,5 @@ public class Config {
     public static String userDirectory = System.getProperty("user.home")+"/";
     public static String home = "OculusBot";
     public static String[] subDirectories ={"Servers","Scripts","Screenshots","Data"};
+    public static String selectedServer ="";
 }
