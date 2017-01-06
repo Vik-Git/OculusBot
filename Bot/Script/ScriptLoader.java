@@ -15,16 +15,18 @@ public class ScriptLoader {
     public Class loaddClass(String scriptName){
         URLClassLoader loader = new URLClassLoader(createURL());
         Class c = null;
+        System.out.println(scriptName);
         try {
-            return loader.loadClass(scriptName);
+            return loader.loadClass(scriptName.replace(".class",""));
         } catch (ClassNotFoundException e) {
+            System.out.println(scriptName);
             System.out.println("Class doesn't exsist");
         }
         return c;
     }
 
     private URL[] createURL()  {
-        File classFile = new File(Config.selectedScript);
+        File classFile = new File(Config.selectedScriptPath);
         URL[] jarURL = new URL[1];
         try {
             jarURL[0] = classFile.toURI().toURL();

@@ -25,8 +25,7 @@ public class OculusBot{
         inj.modifyClasses();
         inj.dumpClasses();*/
         BotFrame botFrame = new BotFrame("OculusBot Alpha Version"+0.1);
-      /*  Thread t = new Thread(new testScript());
-        t.start();*/
+      /*  */
     }
 
 }

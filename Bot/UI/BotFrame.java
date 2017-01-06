@@ -1,6 +1,8 @@
 package Bot.UI;
 
 import Bot.Misc.Config;
+import Bot.Script.Script;
+import Bot.Script.ScriptLoader;
 import Bot.Server.RSPSAppletStub;
 
 import javax.imageio.ImageIO;
@@ -58,6 +60,7 @@ public class BotFrame extends JFrame implements ActionListener{
         this.pack();
         this.setSize(gameDimension);
 
+        itemStart.addActionListener(this);
         itemScript.addActionListener(this);
         itemServer.addActionListener(this);
     }
@@ -100,11 +103,26 @@ public class BotFrame extends JFrame implements ActionListener{
                     }
                 }
                 break;
+            case "Start":
+                ScriptLoader l = new ScriptLoader();
+                Class scriptClass = l.loaddClass(Config.selectedScript);
+                System.out.println(scriptClass);
+                Script s = null;
+                try {
+                    s = (Script) scriptClass.newInstance();
+                } catch (InstantiationException e1) {
+                    e1.printStackTrace();
+                } catch (IllegalAccessException e1) {
+                    e1.printStackTrace();
+                }
+                Thread t = new Thread(s);
+                t.start();
+                break;
         }
         if(e.getActionCommand().endsWith(".class")){
             Config.selectedScript =e.getActionCommand();
-            Config.selectedScriptPath = Config.userDirectory+Config.home+Config.subDirectories[1]+"/"+e.getActionCommand();
-            System.out.println("Selected Script- "+Config.selectedScriptPath);
+            Config.selectedScriptPath = Config.userDirectory+Config.home+Config.subDirectories[1]+"/";
+            System.out.println("Selected Script- "+Config.selectedScriptPath+Config.selectedScript);
            scrs.dispose();
         }
     }

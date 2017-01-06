@@ -1,7 +1,5 @@
-package Bot.Script;
-
 import Bot.API.ColorUtil;
-
+import Bot.Script.Script;
 import java.awt.*;
 
 /**
@@ -23,12 +21,12 @@ public class testScript extends Script {
     }
 
 
-    void onStart() {
+    public void onStart() {
         System.out.println("booting script");
     }
 
 
-    void onStop() {
+    public void onStop() {
         System.out.println("Exiting thread");
     }
 }
