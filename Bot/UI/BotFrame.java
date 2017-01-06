@@ -3,11 +3,15 @@ package Bot.UI;
 import Bot.Misc.Config;
 import Bot.Server.RSPSAppletStub;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.applet.Applet;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 //import java.awt.*;
 /**
  * Created by Vik on 24/11/2016.
@@ -18,7 +22,7 @@ public class BotFrame extends JFrame implements ActionListener{
     private JPanel gamePanel = new JPanel(new BorderLayout());
     private ScriptSelection scrs;
     private ServerSelection ss;
-    public BotFrame(String title) throws IllegalAccessException, InstantiationException {
+    public BotFrame(String title) throws IllegalAccessException, InstantiationException, IOException {
         JMenuBar menuBar = new JMenuBar();
 
         JMenu menuFile = new JMenu("File");
@@ -68,12 +72,12 @@ public class BotFrame extends JFrame implements ActionListener{
     }
 
 
-    private JPanel createGamePanel() throws IllegalAccessException, InstantiationException {
+    private JPanel createGamePanel() throws IllegalAccessException, InstantiationException, IOException {
         gamePanel.setPreferredSize(gameDimension);
-        if(!Config.selectedServer.equals("")) {
-            RSPSAppletStub a = new RSPSAppletStub();
-            gamePanel.add(getGameApplet());
-        }
+        System.out.println();
+        BufferedImage bg = ImageIO.read(new File(Config.userDirectory+Config.home+Config.subDirectories[3]+"/bg.jpg"));
+        JLabel bgLabel = new JLabel(new ImageIcon(bg));
+        gamePanel.add(bgLabel);
         return gamePanel;
     }
 
