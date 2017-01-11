@@ -94,6 +94,14 @@ public class BotFrame extends JFrame implements ActionListener{
         switch (e.getActionCommand()){
             case "Select Server":
                ss = new ServerSelection();
+                Config.selectedServer="sp";
+                try {
+                    redrawPanel();
+                } catch (InstantiationException e1) {
+                    e1.printStackTrace();
+                } catch (IllegalAccessException e1) {
+                    e1.printStackTrace();
+                }
                 break;
             case "Select Script":
                 scrs= new ScriptSelection();

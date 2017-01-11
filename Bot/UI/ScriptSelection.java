@@ -1,32 +1,34 @@
 package Bot.UI;
 
-import Bot.Misc.Config;
+import org.jdesktop.swingx.treetable.DefaultMutableTreeTableNode;
 
 import javax.swing.*;
+import javax.swing.tree.TreeSelectionModel;
 import java.awt.*;
-import java.io.File;
 
 /**
  * Created by Vik on 6/01/2017.
  */
 public class ScriptSelection extends JDialog {
+    private JTree tree;
     public ScriptSelection(){
-        this.setSize(300,80);
         this.setResizable(false);
-        this.setTitle("Select a Script");
-        this.setLayout(new GridBagLayout());
+        this.setLayout(new GridLayout(1,0));
+        this.setTitle("Script Selection");
+        DefaultMutableTreeTableNode top = new DefaultMutableTreeTableNode("Scripts");
+        createNodes(top);
+        tree = new JTree(top);
+        tree.getSelectionModel().setSelectionMode(TreeSelectionModel.SINGLE_TREE_SELECTION);
+        JScrollPane treeView = new JScrollPane(tree);
+        this.add(treeView);
+        this.pack();
         this.setVisible(true);
-        displayScripts();
+        this.setSize(350,500);
     }
 
-    private void displayScripts(){
-        File folder =new File(Config.userDirectory+Config.home+Config.subDirectories[1]);
-        File[] scripts = folder.listFiles();
-        if(folder.listFiles().length > 0) {
-            for (File script : scripts) {
-                this.add(new JButton(script.getName()));
-            }
+    private void createNodes(DefaultMutableTreeTableNode top){
+        for(int i = 0; i < 35;i ++) {
+            top.add(new DefaultMutableTreeTableNode("testScript"));
         }
-        this.revalidate();
     }
 }
