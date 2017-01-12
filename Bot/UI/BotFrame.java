@@ -126,6 +126,9 @@ public class BotFrame extends JFrame implements ActionListener{
                 Thread t = new Thread(s);
                 t.start();
                 break;
+            default:
+               
+            break;
         }
         if(e.getActionCommand().endsWith(".class")){
             Config.selectedScript =e.getActionCommand();
@@ -133,5 +136,6 @@ public class BotFrame extends JFrame implements ActionListener{
             System.out.println("Selected Script- "+Config.selectedScriptPath+Config.selectedScript);
            scrs.dispose();
         }
+
     }
 }
