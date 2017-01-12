@@ -94,13 +94,10 @@ public class BotFrame extends JFrame implements ActionListener{
         switch (e.getActionCommand()){
             case "Select Server":
                ss = new ServerSelection();
-                Config.selectedServer="sp";
-                try {
-                    redrawPanel();
-                } catch (InstantiationException e1) {
-                    e1.printStackTrace();
-                } catch (IllegalAccessException e1) {
-                    e1.printStackTrace();
+                for(Component c: ss.getContentPane().getComponents()) {
+                    if (c instanceof JButton) {
+                        ((JButton) c).addActionListener(this);
+                    }
                 }
                 break;
             case "Select Script":
@@ -127,7 +124,7 @@ public class BotFrame extends JFrame implements ActionListener{
                 t.start();
                 break;
             default:
-               
+                System.out.println(((JButton) e.getSource()).getName());
             break;
         }
         if(e.getActionCommand().endsWith(".class")){
