@@ -68,9 +68,10 @@ public class BotFrame extends JFrame implements ActionListener{
     private void redrawPanel() throws InstantiationException, IllegalAccessException {
         gamePanel.removeAll();
         if(!Config.selectedServer.equals("")) {
-            RSPSAppletStub a = new RSPSAppletStub();
+            RSPSAppletStub a = new RSPSAppletStub(Config.selectedServer);
             gamePanel.add(getGameApplet());
-            this.revalidate();
+            this.pack();
+            this.setSize(gameDimension);
         }
     }
 
@@ -85,7 +86,7 @@ public class BotFrame extends JFrame implements ActionListener{
     }
 
     public Applet getGameApplet() throws IllegalAccessException, InstantiationException {
-        Applet RSPSApplet =new RSPSAppletStub().getGameApplet();;
+        Applet RSPSApplet =new RSPSAppletStub(Config.selectedServer).getGameApplet();;
         return  RSPSApplet;
     }
 
@@ -93,19 +94,29 @@ public class BotFrame extends JFrame implements ActionListener{
     public void actionPerformed(ActionEvent e) {
         switch (e.getActionCommand()){
             case "Select Server":
-               ss = new ServerSelection();
-                for(Component c: ss.getContentPane().getComponents()) {
-                    if (c instanceof JButton) {
-                        ((JButton) c).addActionListener(this);
+                if(ss ==null) {
+                    ss = new ServerSelection();
+                    for (Component c : ss.getContentPane().getComponents()) {
+                        if (c instanceof JButton) {
+                            ((JButton) c).addActionListener(this);
+                        }
                     }
+                }else{
+                    ss.requestFocus();
+                    ss.setVisible(true);
                 }
                 break;
             case "Select Script":
-                scrs= new ScriptSelection();
-                for(Component c: scrs.getContentPane().getComponents()){
-                    if(c instanceof JButton){
-                    ((JButton) c).addActionListener(this);
+                if(scrs == null) {
+                    scrs= new ScriptSelection();
+                    for (Component c : scrs.getContentPane().getComponents()) {
+                        if (c instanceof JButton) {
+                            ((JButton) c).addActionListener(this);
+                        }
                     }
+                }else{
+                    scrs.requestFocus();
+                    scrs.setVisible(true);
                 }
                 break;
             case "Start":
@@ -123,6 +134,19 @@ public class BotFrame extends JFrame implements ActionListener{
                 Thread t = new Thread(s);
                 t.start();
                 break;
+            case "Select":
+                if(((JButton)e.getSource()).getName().equals("select server")){
+                    Config.selectedServer = ss.getSelectedServer();
+                    ss.dispose();
+                    try {
+                        redrawPanel();
+                    } catch (InstantiationException e1) {
+                        e1.printStackTrace();
+                    } catch (IllegalAccessException e1) {
+                        e1.printStackTrace();
+                    }
+                }
+            break;
             default:
                 System.out.println(((JButton) e.getSource()).getName());
             break;

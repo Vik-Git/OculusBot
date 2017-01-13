@@ -3,6 +3,8 @@ package Bot.UI;
 import Bot.Misc.Config;
 
 import javax.swing.*;
+import javax.swing.event.TreeSelectionEvent;
+import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.TreeSelectionModel;
 import java.awt.*;
@@ -11,11 +13,13 @@ import java.io.File;
 /**
  * Created by Vik on 6/01/2017.
  */
-public class ServerSelection extends JDialog {
+public class ServerSelection extends JDialog implements TreeSelectionListener {
     private JTree tree;
+    private String selectedServer="";
     public ServerSelection(){
-        this.setResizable(true);
+        this.setResizable(false);
         this.setLayout(new GridBagLayout());
+        this.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         GridBagConstraints constraints = new GridBagConstraints();
 
         constraints.gridwidth = 3;
@@ -31,6 +35,7 @@ public class ServerSelection extends JDialog {
         createNodes(top);
         tree = new JTree(top);
         tree.getSelectionModel().setSelectionMode(TreeSelectionModel.SINGLE_TREE_SELECTION);
+        tree.addTreeSelectionListener(this);
         JScrollPane treeView = new JScrollPane(tree);
         this.add(treeView, constraints);
 
@@ -50,6 +55,7 @@ public class ServerSelection extends JDialog {
         constraints.gridx = 2;
         constraints.ipadx = 40;
         JButton select =new JButton("Select");
+        select.setName("select server");
         this.add(select,constraints);
 
         this.pack();
@@ -73,5 +79,22 @@ public class ServerSelection extends JDialog {
         }
         top.add(categoryNon);
         top.add(categoryInj);
+    }
+
+    @Override
+    public void valueChanged(TreeSelectionEvent e) {
+        if(e.getPath().getLastPathComponent().toString().endsWith(".jar")) {
+            selectedServer = e.getPath().getLastPathComponent().toString();
+        }
+    }
+
+
+    public String getSelectedServer() {
+        if (selectedServer.equals("")){
+            JOptionPane.showMessageDialog(this,"No server selected!");
+            return "";
+        } else {
+            return selectedServer;
+        }
     }
 }

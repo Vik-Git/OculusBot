@@ -17,8 +17,8 @@ public class RSPSAppletStub implements AppletStub{
     public static Client client;
     private Class clientClass;
 
-    public RSPSAppletStub() throws IllegalAccessException, InstantiationException {
-       RSPSLoader loader = new RSPSLoader(Config.userDirectory+Config.home+"/Servers/client_inj.jar");
+    public RSPSAppletStub(String fileName) throws IllegalAccessException, InstantiationException {
+       RSPSLoader loader = new RSPSLoader(Config.userDirectory+Config.home+"/Servers/"+fileName);
        clientClass =loader.loaddClass("client");
         createApplet();
         startApplet();
@@ -33,7 +33,7 @@ public class RSPSAppletStub implements AppletStub{
     private  void createApplet(){
         try {
             RSApplet = (Applet) clientClass.newInstance();
-            client = (Client) RSApplet;
+            //client = (Client) RSApplet;
         } catch (InstantiationException e) {
             e.printStackTrace();
         } catch (IllegalAccessException e) {

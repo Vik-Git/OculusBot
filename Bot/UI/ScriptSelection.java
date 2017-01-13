@@ -16,6 +16,7 @@ public class ScriptSelection extends JDialog {
     public ScriptSelection(){
         this.setResizable(false);
         this.setLayout(new GridBagLayout());
+        this.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         GridBagConstraints constraints = new GridBagConstraints();
 
         constraints.gridwidth = 2;
