@@ -15,11 +15,13 @@ import java.io.File;
  */
 public class ServerSelection extends JDialog implements TreeSelectionListener {
     private JTree tree;
+    private DefaultMutableTreeNode top = new DefaultMutableTreeNode("Servers");
+    private JScrollPane treeView;
     private String selectedServer="";
     public ServerSelection(){
         this.setResizable(false);
-        this.setLayout(new GridBagLayout());
         this.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+        this.setLayout(new GridBagLayout());
         GridBagConstraints constraints = new GridBagConstraints();
 
         constraints.gridwidth = 3;
@@ -31,12 +33,12 @@ public class ServerSelection extends JDialog implements TreeSelectionListener {
         constraints.fill = GridBagConstraints.BOTH;
 
         this.setTitle("Server Selection");
-        DefaultMutableTreeNode top = new DefaultMutableTreeNode("Servers");
+
         createNodes(top);
         tree = new JTree(top);
         tree.getSelectionModel().setSelectionMode(TreeSelectionModel.SINGLE_TREE_SELECTION);
         tree.addTreeSelectionListener(this);
-        JScrollPane treeView = new JScrollPane(tree);
+         treeView = new JScrollPane(tree);
         this.add(treeView, constraints);
 
         constraints.fill = GridBagConstraints.NONE;
@@ -63,6 +65,15 @@ public class ServerSelection extends JDialog implements TreeSelectionListener {
         this.setSize(400,500);
     }
 
+    public void refreshNodes(){
+        treeView.getViewport().remove(tree);
+        top = new DefaultMutableTreeNode("Servers");
+        createNodes(top);
+        tree = new JTree(top);
+        treeView.getViewport().add(tree);
+        this.revalidate();
+    }
+
     private void createNodes(DefaultMutableTreeNode top){
         File folder =new File(Config.userDirectory+Config.home+Config.subDirectories[0]);
         File[] servers = folder.listFiles();
@@ -85,6 +96,7 @@ public class ServerSelection extends JDialog implements TreeSelectionListener {
     public void valueChanged(TreeSelectionEvent e) {
         if(e.getPath().getLastPathComponent().toString().endsWith(".jar")) {
             selectedServer = e.getPath().getLastPathComponent().toString();
+            System.out.println(selectedServer);
         }
     }
 

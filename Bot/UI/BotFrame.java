@@ -1,5 +1,6 @@
 package Bot.UI;
 
+import Bot.Injector;
 import Bot.Misc.Config;
 import Bot.Script.Script;
 import Bot.Script.ScriptLoader;
@@ -24,6 +25,7 @@ public class BotFrame extends JFrame implements ActionListener{
     private JPanel gamePanel = new JPanel(new BorderLayout());
     private ScriptSelection scrs;
     private ServerSelection ss;
+    private Thread t;
     public BotFrame(String title) throws IllegalAccessException, InstantiationException, IOException {
         JMenuBar menuBar = new JMenuBar();
 
@@ -61,6 +63,7 @@ public class BotFrame extends JFrame implements ActionListener{
         this.setSize(gameDimension);
 
         itemStart.addActionListener(this);
+        itemStop.addActionListener(this);
         itemScript.addActionListener(this);
         itemServer.addActionListener(this);
     }
@@ -93,6 +96,36 @@ public class BotFrame extends JFrame implements ActionListener{
     @Override
     public void actionPerformed(ActionEvent e) {
         switch (e.getActionCommand()){
+            case "Open Script Directory":
+                try {
+                    Desktop.getDesktop().open(new File(Config.userDirectory+Config.home+Config.subDirectories[1]));
+                } catch (IOException e1) {
+                    e1.printStackTrace();
+                }
+                break;
+            case "Open Server Directory":
+                try {
+                    Desktop.getDesktop().open(new File(Config.userDirectory+Config.home+Config.subDirectories[0]));
+                } catch (IOException e1) {
+                    e1.printStackTrace();
+                }
+                break;
+            case"Inject":
+                System.out.println(Config.userDirectory+Config.home+Config.subDirectories[0]+"/"+ss.getSelectedServer());
+                System.out.println(Config.selectedServer);
+                Injector inj = new Injector(Config.userDirectory+Config.home+Config.subDirectories[0]+"/"+ss.getSelectedServer());
+                try {
+                    inj.loadClasses();
+                    inj.modifyClasses();
+                    inj.dumpClasses();
+                } catch (IOException e1) {
+                    e1.printStackTrace();
+                } catch (ClassNotFoundException e1) {
+                    e1.printStackTrace();
+                }
+                ss.refreshNodes();
+
+                break;
             case "Select Server":
                 if(ss ==null) {
                     ss = new ServerSelection();
@@ -103,6 +136,7 @@ public class BotFrame extends JFrame implements ActionListener{
                     }
                 }else{
                     ss.requestFocus();
+                    ss.refreshNodes();
                     ss.setVisible(true);
                 }
                 break;
@@ -116,6 +150,7 @@ public class BotFrame extends JFrame implements ActionListener{
                     }
                 }else{
                     scrs.requestFocus();
+                    scrs.refreshNodes();
                     scrs.setVisible(true);
                 }
                 break;
@@ -131,8 +166,11 @@ public class BotFrame extends JFrame implements ActionListener{
                 } catch (IllegalAccessException e1) {
                     e1.printStackTrace();
                 }
-                Thread t = new Thread(s);
+                t = new Thread(s);
                 t.start();
+                break;
+            case "Stop":
+                t.interrupt();
                 break;
             case "Select":
                 if(((JButton)e.getSource()).getName().equals("select server")){
@@ -145,18 +183,15 @@ public class BotFrame extends JFrame implements ActionListener{
                     } catch (IllegalAccessException e1) {
                         e1.printStackTrace();
                     }
+                }else{
+                    Config.selectedScript = scrs.getSelectedScript();
+                    Config.selectedScriptPath = Config.userDirectory+Config.home+Config.subDirectories[1]+"/";
+                    scrs.dispose();
                 }
             break;
             default:
                 System.out.println(((JButton) e.getSource()).getName());
             break;
         }
-        if(e.getActionCommand().endsWith(".class")){
-            Config.selectedScript =e.getActionCommand();
-            Config.selectedScriptPath = Config.userDirectory+Config.home+Config.subDirectories[1]+"/";
-            System.out.println("Selected Script- "+Config.selectedScriptPath+Config.selectedScript);
-           scrs.dispose();
-        }
-
     }
 }

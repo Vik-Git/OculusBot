@@ -11,13 +11,14 @@ public abstract class Script implements Runnable{
     public final void run() {
         onStart();
         while(!Thread.currentThread().isInterrupted()) {
+
             try {
-
                 Thread.currentThread().sleep(loop());
-
             } catch (InterruptedException e) {
-              e.printStackTrace();
+                break;
             }
+
+
         }
         onStop();
     }

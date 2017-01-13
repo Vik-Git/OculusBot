@@ -1,9 +1,11 @@
 package Bot.UI;
 
 import Bot.Misc.Config;
-import org.jdesktop.swingx.treetable.DefaultMutableTreeTableNode;
 
 import javax.swing.*;
+import javax.swing.event.TreeSelectionEvent;
+import javax.swing.event.TreeSelectionListener;
+import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.TreeSelectionModel;
 import java.awt.*;
 import java.io.File;
@@ -11,8 +13,11 @@ import java.io.File;
 /**
  * Created by Vik on 6/01/2017.
  */
-public class ScriptSelection extends JDialog {
+public class ScriptSelection extends JDialog implements TreeSelectionListener {
     private JTree tree;
+    private DefaultMutableTreeNode top;
+    private JScrollPane treeView;
+    private String selectedScript="";
     public ScriptSelection(){
         this.setResizable(false);
         this.setLayout(new GridBagLayout());
@@ -28,11 +33,12 @@ public class ScriptSelection extends JDialog {
         constraints.fill = GridBagConstraints.BOTH;
 
         this.setTitle("Script Selection");
-        DefaultMutableTreeTableNode top = new DefaultMutableTreeTableNode("Scripts");
+        top = new DefaultMutableTreeNode("Scripts");
         createNodes(top);
         tree = new JTree(top);
+        tree.addTreeSelectionListener(this);
         tree.getSelectionModel().setSelectionMode(TreeSelectionModel.SINGLE_TREE_SELECTION);
-        JScrollPane treeView = new JScrollPane(tree);
+        treeView = new JScrollPane(tree);
         this.add(treeView, constraints);
 
         constraints.fill = GridBagConstraints.NONE;
@@ -51,6 +57,7 @@ public class ScriptSelection extends JDialog {
         constraints.ipadx = 40;
         constraints.gridy= 1;
         JButton select =new JButton("Select");
+        select.setName("select script");
         this.add(select,constraints);
 
         this.pack();
@@ -58,12 +65,37 @@ public class ScriptSelection extends JDialog {
         this.setSize(350,500);
     }
 
-    private void createNodes(DefaultMutableTreeTableNode top){
+    @Override
+    public void valueChanged(TreeSelectionEvent e) {
+        if(e.getPath().getLastPathComponent().toString().endsWith(".class")) {
+            selectedScript = e.getPath().getLastPathComponent().toString();
+        }
+    }
+
+    public String getSelectedScript(){
+        if (selectedScript.equals("")){
+            JOptionPane.showMessageDialog(this,"No script selected!");
+            return "";
+        } else {
+            return selectedScript;
+        }
+    }
+
+    public void refreshNodes(){
+        treeView.getViewport().remove(tree);
+        top = new DefaultMutableTreeNode("Scripts");
+        createNodes(top);
+        tree = new JTree(top);
+        treeView.getViewport().add(tree);
+        this.revalidate();
+    }
+
+    private void createNodes(DefaultMutableTreeNode top){
         File folder =new File(Config.userDirectory+Config.home+Config.subDirectories[1]);
         File[] scripts = folder.listFiles();
         if(folder.listFiles().length > 0) {
             for (File script : scripts) {
-                top.add(new DefaultMutableTreeTableNode(script.getName()));
+                top.add(new DefaultMutableTreeNode(script.getName()));
             }
         }
     }
