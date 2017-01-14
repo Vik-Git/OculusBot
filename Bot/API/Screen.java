@@ -12,6 +12,7 @@ import java.awt.image.BufferedImage;
  */
 public class Screen {
     static Client c = RSPSAppletStub.client;
+
     private static RSImageProducer[] loginProducers = {c.getProducer3(),c.getProducer4(),c.getProducer5(),c.getProducer5(),c.getProducer6(),c.getProducer6(),c.getProducer7(),
             c.getProducer8(), c.getProducer9(),c.getProducer10(),c.getProducer11()};
 
@@ -57,4 +58,6 @@ public class Screen {
         }
         return img;
     }
+
+
 }

@@ -1,23 +1,17 @@
 import Bot.API.ColorUtil;
 import Bot.Script.Script;
+
 import java.awt.*;
 
 /**
  * Created by Vik on 23/11/2016.
  */
 public class testScript extends Script {
-    private Color test = new Color(188, 187, 48);
-    private  Color test2= new Color(217,215,55);
-    private  Color test3 = new Color(233,220,57);
-    int x = 0;
+    private Color bananaColor = new Color(208, 206, 52);
     public int loop(){
-        if(x>5){
-            System.out.println("doing game screen");
-            ColorUtil.gameScreen();
-        }
-        x++;
-        System.out.println(x);
-        return 5000;
+        ColorUtil.clickAtGameColor(bananaColor,5);
+        System.out.println("end of iteration");
+        return 1000;
     }
 
 

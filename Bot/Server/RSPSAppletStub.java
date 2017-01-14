@@ -33,7 +33,7 @@ public class RSPSAppletStub implements AppletStub{
     private  void createApplet(){
         try {
             RSApplet = (Applet) clientClass.newInstance();
-            //client = (Client) RSApplet;
+            client = (Client) RSApplet;
         } catch (InstantiationException e) {
             e.printStackTrace();
         } catch (IllegalAccessException e) {
