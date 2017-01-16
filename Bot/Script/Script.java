@@ -4,7 +4,7 @@ package Bot.Script;
  * Created by Vik on 23/11/2016.
  */
 public abstract class Script implements Runnable{
-    public abstract int loop();
+    public abstract int loop() throws InterruptedException;
     public abstract void onStart();
     public abstract void onStop();
 
