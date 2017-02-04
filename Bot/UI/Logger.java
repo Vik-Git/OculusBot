@@ -7,4 +7,6 @@ import javax.swing.*;
  */
 public class Logger extends JList {
 
+
+
 }

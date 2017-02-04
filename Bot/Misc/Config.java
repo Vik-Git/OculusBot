@@ -8,6 +8,6 @@ public class Config {
     public static String home = "OculusBot";
     public static String[] subDirectories ={"/Servers","/Scripts","/Screenshots","/Data"};
     public static String selectedServer ="";
-    public static String selectedScript="";
+    public static String selectedScript="testScript.class";
     public static String selectedScriptPath="";
 }

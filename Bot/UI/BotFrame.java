@@ -58,9 +58,11 @@ public class BotFrame extends JFrame implements ActionListener{
         this.setLayout(new BorderLayout());
         this.setJMenuBar(menuBar);
         this.add(createGamePanel());
-        this.setResizable(false);
+        this.setResizable(true);
         this.pack();
         this.setSize(gameDimension);
+        Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+        this.setLocation(dim.width/2-this.getSize().width/2, dim.height/2-this.getSize().height/2);
 
         itemStart.addActionListener(this);
         itemStop.addActionListener(this);
@@ -124,7 +126,6 @@ public class BotFrame extends JFrame implements ActionListener{
                     e1.printStackTrace();
                 }
                 ss.refreshNodes();
-
                 break;
             case "Select Server":
                 if(ss ==null) {
@@ -165,6 +166,9 @@ public class BotFrame extends JFrame implements ActionListener{
                     e1.printStackTrace();
                 } catch (IllegalAccessException e1) {
                     e1.printStackTrace();
+                } catch (NullPointerException e2){
+                    JOptionPane.showMessageDialog(this,"You haven't selected a script yet!");
+                    return;
                 }
                 t = new Thread(s);
                 t.start();
@@ -175,6 +179,7 @@ public class BotFrame extends JFrame implements ActionListener{
             case "Select":
                 if(((JButton)e.getSource()).getName().equals("select server")){
                     Config.selectedServer = ss.getSelectedServer();
+                    Config.selectedScriptPath = Config.userDirectory+Config.home+Config.subDirectories[1]+"/";
                     ss.dispose();
                     try {
                         redrawPanel();
@@ -185,7 +190,6 @@ public class BotFrame extends JFrame implements ActionListener{
                     }
                 }else{
                     Config.selectedScript = scrs.getSelectedScript();
-                    Config.selectedScriptPath = Config.userDirectory+Config.home+Config.subDirectories[1]+"/";
                     scrs.dispose();
                 }
             break;

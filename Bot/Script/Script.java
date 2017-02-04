@@ -10,6 +10,11 @@ public abstract class Script implements Runnable{
 
     public final void run() {
         onStart();
+        try {
+
+        } catch (Exception e) {
+            System.out.println("Substance Graphite failed to initialize");
+        }
         while(!Thread.currentThread().isInterrupted()) {
 
             try {

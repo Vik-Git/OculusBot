@@ -63,6 +63,8 @@ public class ServerSelection extends JDialog implements TreeSelectionListener {
         this.pack();
         this.setVisible(true);
         this.setSize(400,500);
+        Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+        this.setLocation(dim.width/2-this.getSize().width/2, dim.height/2-this.getSize().height/2);
     }
 
     public void refreshNodes(){
@@ -70,6 +72,8 @@ public class ServerSelection extends JDialog implements TreeSelectionListener {
         top = new DefaultMutableTreeNode("Servers");
         createNodes(top);
         tree = new JTree(top);
+        tree.getSelectionModel().setSelectionMode(TreeSelectionModel.SINGLE_TREE_SELECTION);
+        tree.addTreeSelectionListener(this);
         treeView.getViewport().add(tree);
         this.revalidate();
     }
@@ -99,7 +103,6 @@ public class ServerSelection extends JDialog implements TreeSelectionListener {
             System.out.println(selectedServer);
         }
     }
-
 
     public String getSelectedServer() {
         if (selectedServer.equals("")){

@@ -20,7 +20,7 @@ public class DirectoryManager {
     }
 
     public boolean checkDirectory(String sDir){
-        if(new File(sDir).exists()){
+        if(new File(sDir).exists()) {
             return true;
         }
         return false;

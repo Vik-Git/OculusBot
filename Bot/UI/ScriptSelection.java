@@ -58,11 +58,14 @@ public class ScriptSelection extends JDialog implements TreeSelectionListener {
         constraints.gridy= 1;
         JButton select =new JButton("Select");
         select.setName("select script");
+
         this.add(select,constraints);
 
         this.pack();
         this.setVisible(true);
         this.setSize(350,500);
+        Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+        this.setLocation(dim.width/2-this.getSize().width/2, dim.height/2-this.getSize().height/2);
     }
 
     @Override
@@ -86,6 +89,8 @@ public class ScriptSelection extends JDialog implements TreeSelectionListener {
         top = new DefaultMutableTreeNode("Scripts");
         createNodes(top);
         tree = new JTree(top);
+        //tree.getSelectionModel().setSelectionMode(TreeSelectionModel.SINGLE_TREE_SELECTION);
+       // tree.addTreeSelectionListener(this);
         treeView.getViewport().add(tree);
         this.revalidate();
     }
