@@ -21,14 +21,14 @@ import java.io.IOException;
  */
 public class BotFrame extends JFrame implements ActionListener{
 
-    private Dimension gameDimension =new Dimension(770,555);
+    private Dimension gameDimension =new Dimension(765,503);
     private JPanel gamePanel = new JPanel(new BorderLayout());
+    private Logger log = new Logger();
     private ScriptSelection scrs;
     private ServerSelection ss;
     private Thread t;
     public BotFrame(String title) throws IllegalAccessException, InstantiationException, IOException {
         JMenuBar menuBar = new JMenuBar();
-
         JMenu menuFile = new JMenu("File");
         JMenu menuScript= new JMenu("Script");
         JMenu menuDev = new JMenu("Development");
@@ -55,12 +55,31 @@ public class BotFrame extends JFrame implements ActionListener{
 
         this.setVisible(true);
         this.setTitle(title);
-        this.setLayout(new BorderLayout());
+        this.setLayout(new GridBagLayout());
         this.setJMenuBar(menuBar);
-        this.add(createGamePanel());
+        GridBagConstraints constraints = new GridBagConstraints();
+        constraints.gridwidth = 1;
+        constraints.gridheight= 2;
+        constraints.gridx = 1;
+        constraints.gridy = 1;
+        this.add(createGamePanel(),constraints);
+
+        //create the model and add elements
+        DefaultListModel<String> listModel = new DefaultListModel<>();
+        listModel.addElement("OculusBot - 20:54 : OculusBot has initialized");
+
+        //create the list
+        JList<String>countryList = new JList<>(listModel);
+
+
+        constraints.gridx = 1;
+        constraints.gridy = 80;
+        countryList.setPreferredSize(new Dimension(765,150));
+        this.add(countryList,constraints);
+
         this.setResizable(true);
         this.pack();
-        this.setSize(gameDimension);
+
         Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
         this.setLocation(dim.width/2-this.getSize().width/2, dim.height/2-this.getSize().height/2);
 
@@ -75,8 +94,10 @@ public class BotFrame extends JFrame implements ActionListener{
         if(!Config.selectedServer.equals("")) {
             RSPSAppletStub a = new RSPSAppletStub(Config.selectedServer);
             gamePanel.add(getGameApplet());
-            this.pack();
+            gamePanel.setPreferredSize(gameDimension);
+            this.revalidate();
             this.setSize(gameDimension);
+            this.pack();
         }
     }
 
@@ -86,6 +107,7 @@ public class BotFrame extends JFrame implements ActionListener{
         System.out.println();
         BufferedImage bg = ImageIO.read(new File(Config.userDirectory+Config.home+Config.subDirectories[3]+"/bg.jpg"));
         JLabel bgLabel = new JLabel(new ImageIcon(bg));
+        bgLabel.setPreferredSize(gameDimension);
         gamePanel.add(bgLabel);
         return gamePanel;
     }

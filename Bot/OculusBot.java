@@ -19,13 +19,13 @@ public class OculusBot{
             System.out.println("New user detected - Creating directories");
             dm.createAllDirectories();
         }
-        BotFrame botFrame = new BotFrame("OculusBot Alpha Version"+0.1);
+       /// BotFrame botFrame = new BotFrame("OculusBot Alpha Version"+0.1);
         /*Injector inj = new Injector(Config.userDirectory+Config.home+"/Servers/client.jar");
         inj.loadClasses();
         inj.modifyClasses();
         inj.dumpClasses();*/
 
-     /*   SwingUtilities.invokeLater(new Runnable() {
+      SwingUtilities.invokeLater(new Runnable() {
             public void run() {
                 try {
                     JFrame.setDefaultLookAndFeelDecorated(true);

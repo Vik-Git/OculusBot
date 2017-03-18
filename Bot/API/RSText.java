@@ -221,9 +221,10 @@ public class RSText {
      *            : font type for the letters you will be searching for
      * @return : String of text that was found inside of rectangle
      */
-    public static String findString(Rectangle rec, Color fontC, Font[] font,BufferedImage img) {
+    public static String findString(Rectangle rec, Color fontC, Font[] font) {
         ArrayList<Letter> nums = new ArrayList<Letter>();
         Font[] foundFont = font;
+        BufferedImage img = Screen.getCompleteGameScreen();
 
         for (int y = rec.y; y < rec.y + rec.height; y++) {
             M1: for (int x = rec.x; x < rec.x + rec.width; x++) {

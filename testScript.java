@@ -1,9 +1,7 @@
 import Bot.API.Game;
-import Bot.API.Screen;
 import Bot.Script.Script;
 
 import java.awt.*;
-import java.awt.image.BufferedImage;
 
 /**
  * Created by Vik on 23/11/2016.
@@ -12,9 +10,9 @@ public class testScript extends Script {
     private Color runeColor = new Color(129, 16, 7);
 
     public int loop(){
-        BufferedImage img = Screen.getCompleteGameScreen();
-        System.out.println("test");
-        System.out.println(Game.getCurrentHP(img));
+        System.out.println("HP: "+ Game.getCurrentHP());
+        System.out.println("Prayer: " + Game.getCurrentPrayer());
+        System.out.println("Energy: "+ Game.getEnergy());
         return 1000;
     }
 
